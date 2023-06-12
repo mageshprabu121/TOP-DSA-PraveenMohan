@@ -1,0 +1,84 @@
+ Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+public class PM {
+
+	static void fun(int arr[],int start, int end)
+	{
+		int temp;
+		
+		while (start < end)
+		{
+			temp = arr[start];
+			arr[start] = arr[end];
+			arr[end] = temp;
+			start++;
+			end--;
+		}
+	}	
+	
+	static void dis(int arr[],
+							int size)
+	{
+		for (int i = 0; i < size; i++)
+			System.out.print(arr[i] + " ");
+		
+		System.out.println();
+	}
+
+
+	public static void main(String args[]) {
+		Scanner z=new Scanner(System.in);
+        int n=z.nextInt();
+		int arr[] = new int[n];
+        for(int i=0;i<n;i++)
+            arr[i]=z.nextInt();
+		dis(arr, n);
+		fun(arr, 0, n-1);
+		System.out.print("Reversed array is \n");
+		dis(arr, n);
+		
+	}
+}
+
+
+------------------------------------------------------------------------------------------------------------
+Recursive Way :
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+import java.io.*;
+
+class ReverseArray {
+
+	static void fun(int arr[], int start, int end)
+	{
+		int temp;
+		if (start >= end)
+			return;
+		temp = arr[start];
+		arr[start] = arr[end];
+		arr[end] = temp;
+		fun(arr, start+1, end-1);
+	}
+
+	static void dis(int arr[], int size)
+	{
+		for (int i=0; i < size; i++)
+			System.out.print(arr[i] + " ");
+		System.out.println("");
+	}
+
+	public static void main(String args[]) {
+		Scanner z=new Scanner(System.in);
+        int n=z.nextInt();
+		int arr[] = new int[n];
+        for(int i=0;i<n;i++)
+            arr[i]=z.nextInt();
+		dis(arr, n);
+		fun(arr, 0, n-1);
+		System.out.print("Reversed array is \n");
+		dis(arr, n);
+		
+	}
+}
