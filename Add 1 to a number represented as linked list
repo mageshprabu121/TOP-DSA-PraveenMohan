@@ -1,0 +1,370 @@
+https://practice.geeksforgeeks.org/problems/add-1-to-a-number-represented-as-linked-list/1
+
+A number N is represented in Linked List such that each digit corresponds to a node in linked list. You need to add 1 to it.
+
+Example 1:
+
+Input:
+LinkedList: 4->5->6
+Output: 457 
+Example 2:
+
+Input:
+LinkedList: 1->2->3
+Output: 124 
+Your Task:
+Your task is to complete the function addOne() which takes the head of the linked list as the only argument and returns the head of the modified linked list. The driver code prints the number.
+Note: The head represents the left-most digit of the number.
+
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(1).
+
+Constraints:
+1 <= N <= 1021
+
+--------------------------------------------------------------------------------------------------
+import java.io.*;
+import java.util.*;
+class Node
+{
+    int data;
+    Node next;
+    
+    Node(int x)
+    {
+        data = x;
+        next = null;
+    }
+}
+class Pm
+{
+    public static void printList(Node node) 
+    { 
+        while (node != null)
+        { 
+            System.out.print(node.data);
+            node = node.next; 
+        }  
+        System.out.println();
+    } 
+    public static void main(String args[])throws IOException
+        {
+            Scanner sc = new Scanner(System.in);
+            int t = sc.nextInt();
+            while(t-->0)
+                {
+                    String s = sc.next();
+                    Node head = new Node( s.charAt(0) - '0' );
+                    Node tail = head;
+                    for(int i=1; i<s.length(); i++)
+                    {
+                        tail.next = new Node( s.charAt(i) - '0' );
+                        tail = tail.next;
+                    }
+                    Solution obj = new Solution();
+                    head = obj.addOne(head);
+                    printList(head); 
+                }
+        }
+}
+************************************all solutions are body of the program only if u want to use online line compailer use the above code and followed by this code*****
+
+class Solution
+{
+    public static Node addOne(Node head) 
+    { 
+        //code here.
+        Node newHead= reverseList(head);
+        Node d=new Node(-1);
+        Node cr=d;
+        Node t=newHead;int c=1,s=0;
+        while(t!=null){
+            s=t.data+c;
+            c=s/10;
+            
+            Node j=new Node(s%10);s=0;
+            cr.next=j;t=t.next;cr=cr.next;
+            
+        } if(c!=0 && t==null){ Node b= new Node(c);cr.next=b;}
+       return reverseList(d.next);
+        
+    }
+    public  static Node reverseList(Node x) {
+       if(x == null ) {
+           return x;
+       }    
+     
+ 
+       Node prevNode = x;
+       Node currNode = x.next;
+       while(currNode != null) {
+           Node nextNode = currNode.next;
+           currNode.next = prevNode;
+           prevNode = currNode;
+           currNode = nextNode;
+       }
+       x.next = null;
+       x = prevNode;
+       return x;
+   }
+
+}
+
+------------------------------------------------------------------------------------------
+
+
+class Solution
+{
+    public static Node reverse(Node head) {
+        
+        Node prev = new Node(head.data);
+        head = head.next;
+        while(head != null) {
+            
+            Node temp = head.next;
+            head.next = prev;
+            prev = head;
+            head = temp;
+        }
+        return prev;
+    }
+    public static Node addOne(Node head) 
+    { 
+        //code here.
+        if(head == null){
+            return head;
+        }
+        if(head.next == null) {
+            head.data += 1;
+            return head;
+        }
+        Node rev = reverse(head);
+        Node temp = rev;
+        while(rev != null) 
+        {
+            if(rev.data < 9) {
+                rev.data += 1;
+                return reverse(temp);
+            }
+            rev.data = 0;
+            rev = rev.next;
+        }
+        Node nhead = new Node(1);
+        nhead.next = temp;
+        
+        return nhead;
+    }
+}
+------------------------------------------------------------------------------------------------------------------------
+class Solution
+{
+   static int AddCarry(Node head){
+       
+       if(head == null){
+           return 1;
+       }
+       
+       //used recuirsion
+       
+       int ans = head.data + AddCarry(head.next);
+       head.data = ans % 10;
+       return  ans/10;
+   }
+    
+    
+    
+    public static Node addOne(Node head) 
+    { 
+        
+        
+        int Result = AddCarry(head);
+        
+        while(Result > 0){
+            Node new_node = new Node(Result);
+            new_node.next = head;
+            return new_node;
+        }
+
+        return head;
+    }
+}
+------------------------------------------------------------------------------------------------
+class Solution
+{
+    public static Node addOne(Node head) 
+    { 
+        //code here.
+         if(head==null){
+            return head;
+        }
+        if(head.next==null){
+           head.data+=1;
+           return head;
+       }
+       Node temp=addOne(head.next);
+       if(temp.data==10){
+           head.data+=1;
+           temp.data=0;
+       }
+       return head;
+    }
+}
+------------------------------------------------------------------------------------------------------
+
+
+class Solution
+{
+    public static Node reverse(Node node)
+    {
+        Node prev = null;
+        Node current = node;
+        Node next = null;
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        node = prev;
+        return node;
+    }
+    public static Node addOne(Node head) 
+    { 
+       if(head==null)
+       {
+           return new Node(1);
+       }
+       int carry=1;
+        head=reverse(head);
+       Node prev=head;
+       Node temp=head;
+       while(temp!=null || carry==1)
+       {
+           if(temp==null && carry==1)
+           {
+               Node newnode=new Node(carry);
+               prev.next=newnode;
+               break;
+           }
+           else
+           {
+               int val=temp.data+carry;
+               if(val>9)
+               {
+                   carry=val/10;
+                   temp.data=val%10;
+               }
+               else
+               {
+                   temp.data=val;
+                   carry=0;
+               }
+           }
+           prev=temp;
+           temp=temp.next;
+       }
+       head=reverse(head);
+       return head;
+    }
+}
+--------------------------------------------------------------------------------------------
+
+class Solution
+{
+    public static Node reverse(Node head){
+        Node cur=head;
+        Node ahead=head;
+        Node prev=null;
+        while(cur!=null){
+            ahead=cur.next;
+            cur.next=prev;
+            prev=cur;
+            cur=ahead;
+        }
+        return prev;
+    }
+    
+    public static Node addOne(Node head) 
+    { 
+        head=reverse(head);
+        Node cur=head;
+        while(true){
+            cur.data=cur.data+1;
+            if(cur.data<10) return reverse(head);
+            else{
+                cur.data=0;
+                if(cur.next==null)break;
+                else cur=cur.next;
+            }
+        }
+        if(cur.data==0){
+            cur.next=new Node(1);
+        }
+        return reverse(head);
+    }
+}
+
+----------------------------------------------------------------------
+
+class Solution
+{
+    static Node reverse(Node head){
+        Node pre=null;
+        Node temp=head;
+        Node next=null;
+        
+        while(temp!=null){
+        next=temp.next;
+        temp.next=pre;
+        pre=temp;
+        temp=next;
+        }
+        return pre;
+        
+    }
+    
+    public static Node addOne(Node head) 
+    { 
+        //code here.
+        Node tempf = head;
+        while(tempf.next != null){
+            tempf = tempf.next;
+        }
+        if(tempf.data != 9){
+            tempf.data = tempf.data+1;
+        }
+        else{
+            Node f = reverse(head);
+            
+            Node temp=new Node(0);
+            Node temp1=temp;
+            int c=0;
+            boolean added = true;
+            while(f!=null ||  c==1){
+                int sum=0;
+                if(f!=null){
+                    sum+=f.data;
+                    f=f.next;
+                }
+                
+                 if(added==true){
+                    sum+=1;
+                    added = false;
+                }
+                sum+=c;
+                c=sum/10;
+                Node node=new Node(sum%10);
+                temp1.next=node;
+                temp1=temp1.next;
+                
+            }
+            
+            Node ans=reverse(temp.next);
+            return ans;
+        
+        }
+        
+        
+        return head;
+    }
+}
