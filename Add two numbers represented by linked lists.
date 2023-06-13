@@ -1,0 +1,551 @@
+
+Given two decimal numbers represented by two linked lists of size N and M respectively. The task is to return a linked list that represents the sum of these two numbers.
+
+For example, the number 190 will be represented by the linked list, 1->9->0->null, similarly 25 by 2->5->null. Sum of these two numbers is 190 + 25 = 215, which will be represented by 2->1->5->null. You are required to return the head of the linked list 2->1->5->null.
+
+Example 1:
+
+Input:
+N = 2
+valueN[] = {4,5}
+M = 3
+valueM[] = {3,4,5}
+Output: 3 9 0  
+Explanation: For the given two linked
+list (4 5) and (3 4 5), after adding
+the two linked list resultant linked
+list will be (3 9 0).
+Example 2:
+
+Input:
+N = 2
+valueN[] = {6,3}
+M = 1
+valueM[] = {7}
+Output: 7 0
+Explanation: For the given two linked
+list (6 3) and (7), after adding the
+two linked list resultant linked list
+will be (7 0).
+Your Task:
+The task is to complete the function addTwoLists() which has node reference of both the linked lists and returns the head of the sum list.   
+
+Expected Time Complexity: O(N+M)
+Expected Auxiliary Space: O(Max(N,M)) for the resultant list.
+
+Constraints:
+1 <= N, M <= 5000
+test link
+https://practice.geeksforgeeks.org/problems/add-two-numbers-represented-by-linked-lists/1
+----------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution{
+    //Function to add two numbers represented by linked list.
+    static Node addTwoLists(Node f, Node s){
+        // code here
+        // return head of sum list
+        //Algorithm Used
+        /*
+        1. First Create a ListNode & intialize it's value with 0
+        2. create one pointr node and assign this new node to it
+        3. intitialze carry variable to 0
+        4. run a while loop with condition either of the list should not be empty
+        5. Check for both the linked lists such that each elements should be added to it
+        6. For a digit greater than 10 take a single no. for carry by using Quotoient operator 
+        and add the second digit to sum by using % operator, again point the next pointer to sum 
+        7. if the carry is 1 then add it to the last digit
+        8. return the result node which was created intially at step 1.
+        
+        */
+     f=reverse(f);
+            s=reverse(s);
+        
+        Node temp=new Node(0);
+        Node temp1=temp;
+        int c=0;
+        while(f!=null || s!=null || c==1){
+            int sum=0;
+            if(f!=null){
+                sum+=f.data;
+                f=f.next;
+            }
+             if(s!=null){
+                sum+=s.data;
+                s=s.next;
+            }
+            sum+=c;
+            c=sum/10;
+            Node node=new Node(sum%10);
+            temp1.next=node;
+            temp1=temp1.next;
+            
+        }
+        Node ans=reverse(temp.next);
+        return ans;
+        
+        
+    }
+    static Node reverse(Node head){
+        Node pre=null;
+        Node temp=head;
+        Node next=null;
+        
+        while(temp!=null){
+        next=temp.next;
+        temp.next=pre;
+        pre=temp;
+        temp=next;
+        }
+        return pre;
+        
+    }
+}
+**************************************************************************************************************************
+
+import java.util.*;
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int d) {
+        data = d;
+        next = null;
+    }
+}
+
+class Pm{
+    
+    static void printList(Node n){
+        while(n!=null){
+            System.out.print(n.data+" ");
+            n = n.next;
+        }
+        System.out.println();
+    }
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        
+        while (T-- > 0) {
+            
+            int n = sc.nextInt();
+            int val = sc.nextInt();
+            
+            Node first = new Node(val);
+            Node tail = first;
+            for(int i=0; i<n-1; i++)
+            {
+                val = sc.nextInt();
+                tail.next = new Node(val);
+                tail = tail.next;
+            }
+            
+            int m = sc.nextInt();
+            val = sc.nextInt();
+            
+            Node second = new Node(val);
+            tail = second;
+            for(int i=0; i<m-1; i++)
+            {
+                val = sc.nextInt();
+                tail.next = new Node(val);
+                tail = tail.next;
+            }
+            
+            Solution g = new Solution();
+            Node res = g.addTwoLists(first, second);
+            printList(res);
+        }
+    }
+}
+
+
+
+
+
+
+****************************************************************************
+
+
+
+
+class Solution{
+    //Function to add two numbers represented by linked list.
+    static Node addTwoLists(Node f, Node s){
+        // code here
+        // return head of sum list
+            f=reverse(f);
+            s=reverse(s);
+        
+        Node temp=new Node(0);
+        Node temp1=temp;
+        int c=0;
+        while(f!=null || s!=null || c==1){
+            int sum=0;
+            if(f!=null){
+                sum+=f.data;
+                f=f.next;
+            }
+             if(s!=null){
+                sum+=s.data;
+                s=s.next;
+            }
+            sum+=c;
+            c=sum/10;
+            Node node=new Node(sum%10);
+            temp1.next=node;
+            temp1=temp1.next;
+            
+        }
+        Node ans=reverse(temp.next);
+        return ans;
+        
+        
+    }
+    static Node reverse(Node head){
+        Node pre=null;
+        Node temp=head;
+        Node next=null;
+        
+        while(temp!=null){
+        next=temp.next;
+        temp.next=pre;
+        pre=temp;
+        temp=next;
+        }
+        return pre;
+    }
+}
+
+**********************************************************************************************
+
+
+class Solution{
+    //Function to add two numbers represented by linked list.
+    static Node reverse(Node head){
+        Node p1 = null;
+        Node p2 = head;
+        while(p2 != null){
+            Node curr = p2.next;
+            p2.next = p1;
+            p1 = p2;
+            p2 = curr;
+        }
+        return p1;
+    }
+    static Node addTwoLists(Node first, Node second){
+        // code here
+        // return head of sum list
+        Node head1 = reverse(first);
+        Node head2 = reverse(second);
+        Node ans = new Node(0);
+        Node res = ans;
+        int carry =0;
+        while(head1 != null || head2 != null || carry != 0){
+            int val = carry;
+            if(head1 != null){
+               val += head1.data;
+               head1 = head1.next;
+            }
+            if(head2 != null){
+                val += head2.data;
+                head2 = head2.next;
+            }
+            carry = val/10;
+            Node temp = new Node(val%10);
+            ans.next = temp;
+            ans = ans.next;
+        }
+        return reverse(res.next);
+    }
+}
+**********************************************************************************************
+
+
+class Solution{
+    //Function to add two numbers represented by linked list.
+    static Node addTwoLists(Node first, Node second){
+        // code here
+        // return head of sum list
+        Stack<Integer> st1 = new Stack<Integer>();
+        Stack<Integer> st2 = new Stack<Integer>();
+        
+        Node curr =  first;
+        while(curr != null){
+            st1.add(curr.data);
+            curr = curr.next;
+        }
+        
+        curr =  second;
+        while(curr != null){
+            st2.add(curr.data);
+            curr = curr.next;
+        }
+        
+        int c=0;
+        Node head=null;
+        while(st1.isEmpty()!=true && st2.isEmpty()!=true){
+            int sum = c+st1.pop() + st2.pop();
+            int f = sum%10;
+            Node x = new Node(f);
+            x.next=head;
+            head=x;
+            c = sum/10;
+        }
+        while(st1.isEmpty()!=true){
+            int sum = c+st1.pop();
+            int f = sum%10;
+            Node x = new Node(f);
+            x.next=head;
+            head=x;
+            c = sum/10;
+        }
+        while( st2.isEmpty()!=true){
+            int sum = c+ st2.pop();
+            int f = sum%10;
+            Node x = new Node(f);
+            x.next=head;
+            head=x;
+            c = sum/10;
+        }
+        
+        if(c>0){
+            int sum = c;
+            int f = sum%10;
+            Node x = new Node(f);
+            x.next=head;
+            head=x;
+        
+        }
+        return head;
+    }
+}
+**********************************************************************************************************
+
+
+
+class Solution{
+    //Function to add two numbers represented by linked list.
+    static Node addTwoLists(Node first, Node second){
+        first=reverseList(first);
+        second=reverseList(second);
+        Node temp = new Node(0);
+        Node temp1= temp;
+        int carry=0;
+        while(first!=null || second!=null || carry==1){
+            int sum=0;
+            if(first!=null){
+                sum=sum+first.data;
+                first=first.next;
+            }
+            if(second!=null){
+                sum=sum+second.data;
+                second=second.next;
+            }
+            sum=sum+carry;
+            carry=sum/10;
+            Node node = new Node(sum%10);
+            temp1.next=node;
+            temp1=temp1.next;
+        }
+        Node result= reverseList(temp.next);
+        return result;
+    }
+    static Node reverseList(Node head){
+        Node prev= null;
+        Node curr =head;
+        Node next= null;
+        while(curr!=null){
+            next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+        }
+        return prev;
+    }
+}
+****************************************************************************
+
+
+class Solution{
+    //Function to add two numbers represented by linked list.
+    public static Node reverse(Node head){
+        if(head == null){
+            return null;
+        }
+        if(head.next == null){
+            return head;
+        }
+        
+        Node prev = null;
+        Node mid = head;
+      //  Node next = mid.next;
+        
+        while(mid != null){
+            Node next = mid.next;
+            
+            mid.next = prev;
+            
+            prev = mid;
+            mid = next;
+        }
+        
+        return prev;
+    }
+    static Node addTwoLists(Node first, Node second){
+        // code here
+        // return head of sum list
+       first =  reverse(first);
+       second = reverse(second);
+       
+      Node result = new Node(0);
+      Node current = result;
+      
+      int carry = 0;
+      
+      while(first != null || second!= null || carry>0){
+          int sum = 0;
+          if(first != null){
+              sum += first.data;
+              first = first.next;
+          }
+          
+          if(second != null){
+              sum+= second.data;
+              second = second.next;
+          }
+          
+          sum+= carry;
+          
+          carry = sum/10;
+          Node newNode = new Node(sum%10);
+          current.next = newNode;
+          current = current.next;
+      }
+      
+      return reverse(result.next);
+        
+        
+    }
+}
+*****************************************************************************************
+
+class Solution{
+    //Function to add two numbers represented by linked list.
+    static Node addTwoLists(Node first, Node second){
+        Node dummy = new Node(-1);
+        Node temp = dummy;
+        Node ptr1 = reverse(first);
+        Node ptr2 = reverse(second);
+        int sum = 0;
+        int carry = 0;
+        while(ptr1 != null || ptr2 != null || carry != 0){
+            sum = 0;
+            if(ptr1 != null){
+                sum += ptr1.data;
+                ptr1 = ptr1.next;
+            }
+            if(ptr2 != null){
+                sum += ptr2.data;
+                ptr2 = ptr2.next;
+            }
+            sum += carry;
+            carry = sum / 10;
+            Node new_node = new Node(sum % 10);
+            temp.next = new_node;
+            temp = temp.next;
+
+        }
+        return reverse(dummy.next);
+    }
+    static Node reverse(Node head){
+        Node prev = null;
+        Node next = null;
+        Node curr = head;
+        while(curr != null){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+}
+*************************************************************************************************************************
+
+
+class Solution{
+   //Function to add two numbers represented by linked list.
+    static Node reverseList(Node head)
+   {
+       Node prev=null;
+       Node current=head;
+       Node forward=current.next;
+       while(current!=null){
+           forward=current.next;
+           current.next=prev;
+           prev=current;
+           current=forward;
+           
+           
+       }
+       return prev;
+   }
+   
+   
+   
+  static Node add(Node first,Node second){
+       int carry=0;
+       Node head=null;
+       Node tail=null;
+       while (first!=null || second!=null || carry!=0){
+           int val1=0;
+           if (first!=null)
+              val1=first.data;
+              
+           int val2=0;
+           if (second!=null)
+               val2=second.data;
+                
+           int sum= carry +val1+val2;
+           int digit=sum%10;
+               
+               
+           Node temp=new Node (digit);
+           if (head==null){
+               head =temp;
+               tail =temp;
+             
+           }else{
+               tail.next=temp;
+               tail=temp;
+           }
+               
+           carry=sum/10;
+                
+           if(first!=null)
+               first=first.next;
+                    
+           if (second!=null)
+               second=second.next;
+               
+       }
+       return head;
+   }
+   
+   
+   static Node addTwoLists(Node first, Node second){
+       
+       first=reverseList(first);
+       second=reverseList(second);
+       
+       Node ans=add(first,second);
+       
+       ans=reverseList(ans);
+       
+   
+   return ans;
+   }
+}
